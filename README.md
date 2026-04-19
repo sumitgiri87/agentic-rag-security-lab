@@ -253,8 +253,9 @@ This lab is part of a broader audit methodology:
 
 ## 8. References
 
-- Liao, Q. et al. (2025). *Attacking Agentic AI: Empirical Findings from Red Teaming Commercial Computer Use Agents.* Columbia University.
+- Liao, Q. et al. (2025). *Commercial LLM Agents Are Already Vulnerable to Simple Yet Dangerous Attacks.* Columbia University.
 - Greshake, K. et al. (2023). *Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection.* — Foundational research on indirect injection in retrieval-augmented systems.
+- Narajala, V.S. and Narayan, O. (2025). *Securing Agentic AI: A Comprehensive Threat Model and Mitigation Framework for Generative AI Agents.* arXiv:2504.19956. — ATFAA T3 (Knowledge and Memory Poisoning) and T4 (Unauthorized Action Execution) are the threat taxonomy basis for scenarios 3 and 5 in this lab.
 - OWASP Top 10 for Large Language Model Applications (v1.1, 2023) — LLM01 (Prompt Injection), LLM06 (Sensitive Information Disclosure).
 - MITRE ATLAS — AML.T0054: LLM Prompt Injection; AML.T0051: LLM Data Poisoning.
 - LangChain Documentation — Retrieval, Document Loaders, Memory.
