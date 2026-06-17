@@ -7,7 +7,7 @@
 
 > A vulnerable-by-design RAG pipeline for learning and testing prompt injection, data poisoning, and retrieval manipulation attacks. Built for security engineers and AI developers who need a safe, legal environment to understand how RAG systems fail.
 
-> **Part of the [agentic-ai-security-audit-framework](https://github.com/sumitgiri/agentic-ai-security-audit-framework) — a structured methodology for auditing enterprise agentic AI deployments.**
+> **Part of the [agentic-ai-security-audit-framework](https://github.com/sumitgiri87/agentic-ai-security-audit-framework) — a structured methodology for auditing enterprise agentic AI deployments.**
 
 ---
 
@@ -167,34 +167,32 @@ In Session B, a different user asks about the data export approval process. The 
 
 **Requirements:**
 
-- Python 3.11+
-- OpenAI API key or Anthropic API key (configurable)
-- ~500MB disk space for local Chroma database
+- Python 3.11+ — **no other dependencies** for the current scenarios
+- **No API key required:** the lab runs offline with a deterministic LLM stand-in (`EchoLLM`)
+- An OpenAI or Anthropic key is optional, for the real-provider adapter (in progress)
 
 **Install:**
 
 ```bash
-git clone https://github.com/sumitgiri/agentic-rag-security-lab
+git clone https://github.com/sumitgiri87/agentic-rag-security-lab
 cd agentic-rag-security-lab
 pip install -r requirements.txt
 ```
 
-**Configure:**
+**Configure (optional):**
+
+The lab runs offline as-is. Only copy `.env` if you later want to point it at a real model:
 
 ```bash
 cp .env.example .env
-# Edit .env and add your API key
 ```
 
 ```env
-# .env
-OPENAI_API_KEY=your_key_here
-# OR
-ANTHROPIC_API_KEY=your_key_here
-
-LLM_PROVIDER=openai          # openai | anthropic
-CHROMA_PERSIST_DIR=./chroma_db
-COLLECTION_NAME=lab_knowledge_base
+# .env — defaults run fully offline, no key needed
+LLM_PROVIDER=echo            # echo | openai | anthropic
+# OPENAI_API_KEY=your_key_here
+# ANTHROPIC_API_KEY=your_key_here
+LAB_DB_PATH=lab_kb.json
 ```
 
 **Run the lab:**
@@ -215,11 +213,25 @@ python scenarios/01_direct_injection.py
 
 ## 5. Repository Structure
 
-The repository is being built scenario by scenario. Core RAG pipeline and Scenario 1 are the current focus.
+```
+lab/                     # dependency-free vulnerable RAG core (stdlib only)
+  embeddings.py          #   deterministic hashing embeddings
+  vector_store.py        #   insecure in-memory store (no auth / provenance)
+  llm.py                 #   EchoLLM offline stand-in + provider hook
+  rag_pipeline.py        #   trust-everything RAG (the vulnerability surface)
+setup/
+  init_knowledge_base.py # seed clean documents
+scenarios/
+  01_direct_injection.py # Scenario 1 — runnable, offline
+attacks/
+  payloads.py            # adversarial payload library (extended per scenario)
+requirements.txt         # core needs nothing; optional adapter deps listed
+.env.example
+```
 
-**Current:** RAG pipeline core, Chroma setup, Scenario 1 (direct injection).  
-**In progress:** Scenario 2 (metadata injection), payload library.  
-**Planned:** Scenarios 3-5, detection utilities, audit evidence output.
+**Runnable now:** the offline RAG core and Scenario 1. **In progress:** Scenario 2
+(metadata injection) and the LangChain/Chroma + real-LLM adapter. **Planned:**
+Scenarios 3–5, detection utilities, audit-evidence output.
 
 ---
 
@@ -227,8 +239,9 @@ The repository is being built scenario by scenario. Core RAG pipeline and Scenar
 
 | Component | Status |
 |---|---|
-| Lab architecture and Chroma setup | 🔄 In progress |
-| Scenario 1 — Direct injection | 🔄 In progress |
+| Offline RAG core (embeddings, vector store, pipeline, EchoLLM) | ✅ Runnable |
+| Scenario 1 — Direct injection | ✅ Runnable |
+| LangChain/Chroma + real-LLM adapter | 🔄 In progress |
 | Scenario 2 — Metadata injection | 📅 Planned |
 | Scenario 3 — Vector store poisoning | 📅 Planned |
 | Scenario 4 — Context crowding | 📅 Planned |
@@ -244,7 +257,7 @@ This lab is part of a broader audit methodology:
 
 | Repository | Description |
 |---|---|
-| [agentic-ai-security-audit-framework](https://github.com/sumitgiri/agentic-ai-security-audit-framework) | Flagship repo — full audit methodology, compliance mapper, evidence templates |
+| [agentic-ai-security-audit-framework](https://github.com/sumitgiri87/agentic-ai-security-audit-framework) | Flagship repo — full audit methodology, compliance mapper, evidence templates |
 | agentic-rag-security-lab | **This repo** — vulnerable RAG pipeline for attack research |
 | agent-compliance-mapper | CLI tool for EU AI Act and OSFI E-23 gap analysis *(coming)* |
 | llm-audit-logger | Drop-in middleware for structured agent action logging *(coming)* |
@@ -271,7 +284,7 @@ Toronto, Ontario, Canada
 
 AI red teaming at Mindrift. Cybersecurity consulting at CyStack. Building an independent AI agent security audit practice for Canadian regulated enterprises.
 
-[LinkedIn](https://linkedin.com/in/sumitgiri) · [GitHub](https://github.com/sumitgiri)
+[LinkedIn](https://linkedin.com/in/sumitgiri) · [GitHub](https://github.com/sumitgiri87)
 
 ---
 
