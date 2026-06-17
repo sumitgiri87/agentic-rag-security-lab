@@ -1,0 +1,13 @@
+# The lab core runs on the Python standard library alone (Python 3.11+).
+# There is nothing to install to run the current scenarios offline.
+#
+# The packages below are OPTIONAL and only needed for the LangChain/Chroma
+# adapter and real-LLM providers, which are in progress (see README
+# "Current Status"). Uncomment when that adapter lands:
+#
+# langchain>=0.2
+# langchain-community>=0.2
+# chromadb>=0.5
+# python-dotenv>=1.0
+# openai>=1.0           # if LLM_PROVIDER=openai
+# anthropic>=0.40       # if LLM_PROVIDER=anthropic
